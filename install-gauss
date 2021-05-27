@@ -1,0 +1,31 @@
+#1
+ docker network create --subnet=172.16.0.0/16 mogdbnetwork
+
+#2
+ docker login -u cn-east-3@MLI3I6DMIETZS9H5N2VI -p c2ebf043f73720aabada13b8a3ae0f7c152bbe32515389a4f60ceede8857ce51 swr.cn-east-3.myhuaweicloud.com
+
+#3 不同操作系统镜像选择不同 （注意一下）
+ docker pull swr.cn-east-3.myhuaweicloud.com/enmotech/mogdb:1.1.0_amd
+
+#4
+docker run --network mogdbnetwork --ip 172.16.0.101 --privileged=true --name mogdb_priamry  -h mogdb_priamry  -p 1111:5432 -d -e GS_PORT=5432 -e OG_SUBNET=172.16.0.0/16 -e GS_PASSWORD=Enmo@123 -e NODE_NAME=mogdb_priamry -e 'REPL_CONN_INFO=replconninfo1 = '\''localhost=172.13.0.101 localport=5434 localservice=5432 remotehost=172.16.0.102 remoteport=5434 remoteservice=5432'\''\n' swr.cn-east-3.myhuaweicloud.com/enmotech/mogdb:1.1.0_arm -M primary
+docker run --network mogdbnetwork --ip 172.16.0.102 --privileged=true --name mogdb_standby1 -h mogdb_standby1 -p 1112:5432 -d -e GS_PORT=5432 -e OG_SUBNET=172.16.0.0/16 -e GS_PASSWORD=Enmo@123 -e NODE_NAME=mogdb_standby1 -e 'REPL_CONN_INFO=replconninfo1 = '\''localhost=172.16.0.102 localport=5434 localservice=5432 remotehost=172.16.0.101 remoteport=5434 remoteservice=5432'\''\n' swr.cn-east-3.myhuaweicloud.com/enmotech/mogdb:1.1.0_arm -M standby
+docker run --network mogdbnetwork --ip 172.16.0.103 --privileged=true --name mogdb_standby2 -h mogdb_standby2 -p 1113:5432 -d -e GS_PORT=5432 -e OG_SUBNET=172.16.0.0/16 -e GS_PASSWORD=Enmo@123 -e NODE_NAME=mogdb_standby2 -e 'REPL_CONN_INFO=replconninfo2 = '\''localhost=172.16.0.103 localport=5434 localservice=5432 remotehost=172.16.0.101 remoteport=5434 remoteservice=5432'\''\n' swr.cn-east-3.myhuaweicloud.com/enmotech/mogdb:1.1.0_arm -M standby
+docker run --network mogdbnetwork --ip 172.16.0.104 --privileged=true --name mogdb_standby3 -h mogdb_standby3 -p 1114:5432 -d -e GS_PORT=5432 -e OG_SUBNET=172.16.0.0/16 -e GS_PASSWORD=Enmo@123 -e NODE_NAME=mogdb_standby3 -e 'REPL_CONN_INFO=replconninfo3 = '\''localhost=172.16.0.104 localport=5434 localservice=5432 remotehost=172.16.0.101 remoteport=5434 remoteservice=5432'\''\n' swr.cn-east-3.myhuaweicloud.com/enmotech/mogdb:1.1.0_arm -M standby
+docker run --network mogdbnetwork --ip 172.16.0.105 --privileged=true --name mogdb_standby4 -h mogdb_standby4 -p 1115:5432 -d -e GS_PORT=5432 -e OG_SUBNET=172.16.0.0/16 -e GS_PASSWORD=Enmo@123 -e NODE_NAME=mogdb_standby4 -e 'REPL_CONN_INFO=replconninfo4 = '\''localhost=172.16.0.105 localport=5434 localservice=5432 remotehost=172.16.0.101 remoteport=5434 remoteservice=5432'\''\n' swr.cn-east-3.myhuaweicloud.com/enmotech/mogdb:1.1.0_arm -M standby
+docker run --network mogdbnetwork --ip 172.16.0.106 --privileged=true --name mogdb_standby5 -h mogdb_standby5 -p 1116:5432 -d -e GS_PORT=5432 -e OG_SUBNET=172.16.0.0/16 -e GS_PASSWORD=Enmo@123 -e NODE_NAME=mogdb_standby5 -e 'REPL_CONN_INFO=replconninfo5 = '\''localhost=172.16.0.106 localport=5434 localservice=5432 remotehost=172.16.0.101 remoteport=5434 remoteservice=5432'\''\n' swr.cn-east-3.myhuaweicloud.com/enmotech/mogdb:1.1.0_arm -M standby
+docker run --network mogdbnetwork --ip 172.16.0.107 --privileged=true --name mogdb_cascade1 -h mogdb_cascade1 -p 1117:5432 -d -e GS_PORT=5432 -e OG_SUBNET=172.16.0.0/16 -e GS_PASSWORD=Enmo@123 -e NODE_NAME=mogdb_cascade1 -e 'REPL_CONN_INFO=replconninfo6 = '\''localhost=172.16.0.107 localport=5434 localservice=5432 remotehost=172.16.0.101 remoteport=5434 remoteservice=5432'\''\n' swr.cn-east-3.myhuaweicloud.com/enmotech/mogdb:1.1.0_arm -M cascade_standby
+
+主库
+alter system set replconninfo1 = 'localhost=172.11.0.101 localport=5434 localservice=5432 remotehost=172.11.0.102 remoteport=5434 remoteservice=5432';
+alter system set replconninfo2 = 'localhost=172.11.0.101 localport=5434 localservice=5432 remotehost=172.11.0.103 remoteport=5434 remoteservice=5432';
+alter system set replconninfo3 = 'localhost=172.11.0.101 localport=5434 localservice=5432 remotehost=172.11.0.104 remoteport=5434 remoteservice=5432';
+alter system set replconninfo4 = 'localhost=172.11.0.101 localport=5434 localservice=5432 remotehost=172.11.0.105 remoteport=5434 remoteservice=5432';
+alter system set replconninfo5 = 'localhost=172.11.0.101 localport=5434 localservice=5432 remotehost=172.11.0.106 remoteport=5434 remoteservice=5432';
+alter system set replconninfo6 = 'localhost=172.16.0.101 localport=5434 localservice=5432 remotehost=172.16.0.103 remoteport=5434 remoteservice=5432';
+alter system set max_wal_senders=16;
+
+级联上游
+alter system set replconninfo6 = 'localhost=172.16.0.102 localport=5434 localservice=5432 remotehost=172.16.0.103 remoteport=5434 remoteservice=5432';
+alter system set replconninfo6 = 'localhost=172.12.0.107 localport=5434 localservice=5432 remotehost=172.12.0.102 remoteport=5434 remoteservice=5432';
+

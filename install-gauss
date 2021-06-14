@@ -2,7 +2,7 @@
  docker network create --subnet=172.16.0.0/16 mogdbnetwork
 
 #2
- docker login -u cn-east-3@MLI3I6DMIETZS9H5N2VI -p c2ebf043f73720aabada13b8a3ae0f7c152bbe32515389a4f60ceede8857ce51 swr.cn-east-3.myhuaweicloud.com
+ docker login -u cn-east-3@MLI3I6DMIcxxxxxxxxxx -p c2ebf043f73720xxxxxxxxxxxxxbe32515389a4f60ceede8857ce51 swr.cn-east-3.myhuaweicloud.com
 
 #3 不同操作系统镜像选择不同 （注意一下）
  docker pull swr.cn-east-3.myhuaweicloud.com/enmotech/mogdb:1.1.0_amd
